@@ -11,7 +11,7 @@ jobs:
 
 workflows:
   version: 2
-  dev_stage_pre-prod:
+  deploy-site:
     jobs:
       - deploy:
           filters:
