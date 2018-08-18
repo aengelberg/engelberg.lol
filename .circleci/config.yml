@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  deploy:
+    docker:
+      - image: circleci/clojure:lein-2.7.1
+
+    working_directory: ~/repo
+    
+    steps:
+      - checkout
+
+workflows:
+  version: 2
+  dev_stage_pre-prod:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
