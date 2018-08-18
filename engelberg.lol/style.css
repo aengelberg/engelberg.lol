@@ -1,0 +1,17 @@
+body {
+    background-image: url("landscape.jpg"), linear-gradient(to right, #D0C0C0, #D0CCB0);
+    background-size: contain;
+    background-position: top;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-color: ;
+}
+
+h1 {
+    color: blue;
+}
+
+h2 {
+    color: red;
+}
