@@ -1,13 +1,36 @@
 version: 2
 jobs:
+  build-alex:
+    docker:
+      - image: circleci/lein-2.8.1
+    working_directory: ~/repo/alex.engelberg.lol/
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - alex-m2-{{ checksum "project.clj" }}-{{ .Revision }}
+            - alex-m2-{{ checksum "project.clj" }}-
+            - alex-m2-
+      - run:
+          name: Build JS
+          command: lein cljsbuild once min
+      - save_cache:
+          key: alex-built-js-{{ .BuildNum }}
+          paths:
+            - resources/public/js
+      - save_cache:
+          key: alex-m2-{{ checksum "project.clj" }}-{{ .Revision }}
+          paths:
+            - ~/.m2
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
-
     working_directory: ~/repo
-    
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - alex-built-js-{{ .BuildNum }}
       - run:
           name: Install awscli
           command: sudo pip install awscli
@@ -16,16 +39,19 @@ jobs:
           command: aws s3 sync engelberg.lol/ s3://engelberg.lol/ --delete
       - run:
           name: Deploy alex.engelberg.lol
-          command: aws s3 sync alex.engelberg.lol/ s3://alex.engelberg.lol/ --delete
+          command: aws s3 sync alex.engelberg.lol/resources/public/ s3://alex.engelberg.lol/ --delete
       - run:
           name: Deploy molly.engelberg.lol
           command: aws s3 sync molly.engelberg.lol/ s3://molly.engelberg.lol/ --delete
 
 workflows:
   version: 2
-  deploy-site:
+  build-site:
     jobs:
+      - build
       - deploy:
+          requires:
+            - build-alex
           filters:
             branches:
               only:
