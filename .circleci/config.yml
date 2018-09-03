@@ -3,7 +3,6 @@ jobs:
   build-alex:
     docker:
       - image: circleci/clojure:lein-2.8.1
-    working_directory: ~/project/alex.engelberg.lol/
     steps:
       - checkout
       - restore_cache:
@@ -12,12 +11,13 @@ jobs:
             - alex-m2-{{ checksum "project.clj" }}-
             - alex-m2-
       - run:
+          working_directory: alex.engelberg.lol
           name: Build JS
           command: lein cljsbuild once min
       - save_cache:
           key: alex-built-js-{{ .BuildNum }}
           paths:
-            - resources/public/js/compiled
+            - alex.engelberg.lol/resources/public/js/compiled
       - save_cache:
           key: alex-m2-{{ checksum "project.clj" }}-{{ .Revision }}
           paths:
