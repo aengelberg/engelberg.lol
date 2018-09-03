@@ -3,7 +3,7 @@ jobs:
   build-alex:
     docker:
       - image: circleci/clojure:lein-2.8.1
-    working_directory: ~/repo/alex.engelberg.lol/
+    working_directory: ~/project/alex.engelberg.lol/
     steps:
       - checkout
       - restore_cache:
@@ -17,7 +17,7 @@ jobs:
       - save_cache:
           key: alex-built-js-{{ .BuildNum }}
           paths:
-            - resources/public/js
+            - resources/public/js/compiled
       - save_cache:
           key: alex-m2-{{ checksum "project.clj" }}-{{ .Revision }}
           paths:
@@ -25,7 +25,6 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
-    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
