@@ -7,9 +7,16 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - alex-m2-{{ checksum "project.clj" }}-{{ .Revision }}
-            - alex-m2-{{ checksum "project.clj" }}-
+            - alex-m2-{{ checksum "alex.engelberg.lol/project.clj" }}-{{ .Revision }}
+            - alex-m2-{{ checksum "alex.engelberg.lol/project.clj" }}-
             - alex-m2-
+      - run:
+          working_directory: alex.engelberg.lol
+          command: lein deps
+      - save_cache:
+          key: alex-m2-{{ checksum "alex.engelberg.lol/project.clj" }}-{{ .Revision }}
+          paths:
+            - ~/.m2
       - run:
           working_directory: alex.engelberg.lol
           name: Build JS
@@ -18,10 +25,6 @@ jobs:
           key: alex-built-js-{{ .BuildNum }}
           paths:
             - alex.engelberg.lol/resources/public/js/compiled
-      - save_cache:
-          key: alex-m2-{{ checksum "project.clj" }}-{{ .Revision }}
-          paths:
-            - ~/.m2
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
