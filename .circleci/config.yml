@@ -2,7 +2,7 @@ version: 2
 jobs:
   build-alex:
     docker:
-      - image: circleci/lein-2.8.1
+      - image: circleci/clojure:lein-2.8.1
     working_directory: ~/repo/alex.engelberg.lol/
     steps:
       - checkout
