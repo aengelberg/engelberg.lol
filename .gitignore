@@ -2,10 +2,8 @@ pom.xml
 pom.xml.asc
 *.jar
 *.class
-/lib/
-/classes/
-/target/
-/checkouts/
+*/target/
+*/checkouts/
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
@@ -15,3 +13,6 @@ pom.xml.asc
 
 *~
 #*#
+**/resources/public/js/compiled/**
+figwheel_server.log
+.repl
