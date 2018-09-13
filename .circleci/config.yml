@@ -22,7 +22,7 @@ jobs:
           name: Build JS
           command: lein cljsbuild once min
       - save_cache:
-          key: alex-built-js-{{ .BuildNum }}
+          key: alex-built-js-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
             - alex.engelberg.lol/resources/public/js/compiled
   deploy:
@@ -32,7 +32,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - alex-built-js-{{ .BuildNum }}
+            - alex-built-js-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - run:
           name: Install awscli
           command: sudo pip install awscli
