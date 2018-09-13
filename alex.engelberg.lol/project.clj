@@ -8,6 +8,7 @@
   [[org.clojure/clojure "1.9.0"]
    [org.clojure/clojurescript "1.10.238"]
    [org.clojure/core.async  "0.4.474"]
+   [manifold-cljs "0.1.7-1"]
    [reagent "0.7.0"]]
 
   :plugins

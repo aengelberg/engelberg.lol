@@ -1,2 +1,7 @@
-/* some style */
-
+body {
+    background-image: linear-gradient(to right, #200000, #001000);
+    background-size: contain;
+    font-family: "Consolas", monaco, monospace;
+    text-align: left;
+    color: #00AA11;
+}

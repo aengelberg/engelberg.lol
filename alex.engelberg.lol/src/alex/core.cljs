@@ -1,5 +1,8 @@
 (ns alex.core
   (:require
+    [manifold-cljs.deferred :as d]
+    [manifold-cljs.executor :as ex]
+    [manifold-cljs.time :as mt]
     [reagent.core :as reagent :refer [atom]]))
 
 (enable-console-print!)
@@ -8,20 +11,49 @@
 
 ;; define your app data so that it doesn't get over-written on reload
 
-(defonce app-state
-  (atom {:title "Welcome to Alex's site"
-         :text "Cool"}))
+(def app-state
+  (atom
+    {:title ""
+     :subtitle ""
+     :text ""}))
 
 
-(defn hello-world []
+(defn animate-text!
+  [data-key title]
+  (d/loop [chars title]
+    (when-not (empty? chars)
+      (d/chain
+        (mt/in (+ 30 (rand-int 30)) (constantly nil))
+        (fn next-letter
+          []
+          (swap! app-state update-in data-key str (first chars))
+          (d/recur (rest chars)))))))
+
+
+(defn page
+  []
   [:div
-   [:h1 (:title @app-state)]
+   [:h1 [:strong (:title @app-state)]]
+   [:h3 [:em (:subtitle @app-state)]]
    [:p (:text @app-state)]])
 
 
+(defn animate-titles!
+  []
+  (d/chain
+    (animate-text! [:title] "ALEX ENGELBERG")
+    (fn []
+      (animate-text! [:subtitle] "Keyboard Operator"))
+    (fn []
+      (animate-text! [:text] "Welcome to my site, I'm not sure what to put here yet."))))
+
+
 (reagent/render-component
-  [hello-world]
+  [page]
   (. js/document (getElementById "app")))
+
+
+(animate-titles!)
 
 
 (defn on-js-reload []
