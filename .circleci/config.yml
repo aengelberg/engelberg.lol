@@ -12,15 +12,12 @@ jobs:
             - alex-m2-
       - run:
           working_directory: alex.engelberg.lol
-          command: lein deps
+          name: Build JS
+          command: lein cljsbuild once min
       - save_cache:
           key: alex-m2-{{ checksum "alex.engelberg.lol/project.clj" }}-{{ .Revision }}
           paths:
             - ~/.m2
-      - run:
-          working_directory: alex.engelberg.lol
-          name: Build JS
-          command: lein cljsbuild once min
       - save_cache:
           key: alex-built-js-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
