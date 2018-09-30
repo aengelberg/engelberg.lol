@@ -1,5 +1,6 @@
 (ns alex.core
   (:require
+    [alex.icons :as icons]
     [manifold-cljs.deferred :as d]
     [manifold-cljs.executor :as ex]
     [manifold-cljs.time :as mt]
@@ -14,8 +15,7 @@
 (def app-state
   (atom
     {:title ""
-     :subtitle ""
-     :text ""}))
+     :subtitle ""}))
 
 
 (defn animate-text!
@@ -30,22 +30,74 @@
           (d/recur (rest chars)))))))
 
 
-(defn page
-  []
-  [:div
-   [:h1 [:strong (:title @app-state)]]
-   [:h3 [:em (:subtitle @app-state)]]
-   [:p (:text @app-state)]])
-
-
 (defn animate-titles!
   []
   (d/chain
     (animate-text! [:title] "ALEX ENGELBERG")
     (fn []
-      (animate-text! [:subtitle] "Keyboard Operator"))
-    (fn []
-      (animate-text! [:text] "Welcome to my site, I'm not sure what to put here yet."))))
+      (animate-text! [:subtitle] "Musical Engineer"))))
+
+
+(defn titles
+  []
+  [:div.titles
+   [:h1.center [:strong (:title @app-state)]]
+   [:h3.center [:em (:subtitle @app-state)]]])
+
+
+(defn social-media
+  []
+  [:div.social-media.center
+   [:a
+    {:href "https://twitter.com/@aengelbro"}
+    [:img {:src icons/twitter}]]
+   " "
+   [:a
+    {:href "https://github.com/aengelberg"}
+    [:img {:src icons/github}]]
+   " "
+   [:a
+    {:href "https://soundcloud.com/aengelberg"}
+    [:img {:src icons/soundcloud}]]])
+
+
+(defn music
+  []
+  [:div
+   [:p.center
+    [:img
+     {:src "/img/musical-keyboard-emoji.png"
+      :style {:height "100px"}}]]
+   (for [i (range 10)]
+     [:div "TODO"])])
+
+
+(defn software
+  []
+  [:div
+   [:p.center
+    [:img
+     {:src "/img/laptop-emoji.png"
+      :style {:height "100px"}}]]
+   (for [i (range 10)]
+     [:div "TODO"])])
+
+
+(defn page
+  []
+  [:div.main
+   [titles]
+   [:p.center
+    [:img
+     {:src "/img/alex-square.png"
+      :style {:height "100px"}}]]
+   [social-media]
+   [:p "Welcome to my site! I make music and software."]
+   [:hr]
+   [music]
+   [:hr]
+   [software]
+   [:hr]])
 
 
 (reagent/render-component
