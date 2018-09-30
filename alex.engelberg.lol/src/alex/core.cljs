@@ -92,7 +92,6 @@
      {:src "/img/alex-square.png"
       :style {:height "100px"}}]]
    [social-media]
-   [:p "Welcome to my site! I make music and software."]
    [:hr]
    [music]
    [:hr]
