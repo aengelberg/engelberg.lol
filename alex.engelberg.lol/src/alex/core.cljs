@@ -129,7 +129,19 @@
      (embed-youtube "https://www.youtube.com/embed/jlPaby7suOc")]
     [:div
      [:p.center "An improvised musical score!"]
-     (embed-youtube "https://www.youtube.com/embed/IEOifkUcShA")])])
+     (embed-youtube "https://www.youtube.com/embed/IEOifkUcShA")])
+   [:p.center "A weirdly popular meme"]
+   [:blockquote
+    {:class "twitter-tweet tw-align-center"
+     :data-theme "dark"
+     :data-lang "en"
+     :style {:width "100%"}}
+    [:p {:lang "en" :dir "ltr"}
+     "1 new message "
+     [:a {:href "https://t.co/H09WcuYYoJ"}
+      "pic.twitter.com/H09WcuYYoJ"]
+     "- Alex Engelberg (@aengelbro) "
+     [:a {:href "https://twitter.com/aengelbro/status/1057659128707829760?ref_src=twsrc%5Etfw"}]]]])
 
 
 (defn page
