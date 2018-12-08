@@ -35,7 +35,7 @@
   (d/chain
     (animate-text! [:title] "ALEX ENGELBERG")
     (fn []
-      (animate-text! [:subtitle] "Musical Engineer"))))
+      (animate-text! [:subtitle] "I write code and I play instruments"))))
 
 
 (defn titles
@@ -61,26 +61,66 @@
     [:img {:src icons/soundcloud}]]])
 
 
-(defn music
+(defn embed-youtube
+  [src]
+  [:iframe {:width "100%"
+            :height "250"
+            :src src
+            :frameborder "0"
+            :allow "autoplay; encrypted-media; fullscreen"
+            :allow-full-screen true}])
+
+
+(defn embed-soundcloud
+  [src]
+  [:iframe {:width "100%"
+            :height "250"
+            :scrolling "no"
+            :frameborder "no"
+            :allow "autoplay"
+            :src src}])
+
+
+(defn things-i-did
   []
   [:div
    [:p.center
-    [:img
-     {:src "/img/musical-keyboard-emoji.png"
-      :style {:height "100px"}}]]
-   (for [i (range 10)]
-     [:div "TODO"])])
-
-
-(defn software
-  []
-  [:div
-   [:p.center
-    [:img
-     {:src "/img/laptop-emoji.png"
-      :style {:height "100px"}}]]
-   (for [i (range 10)]
-     [:div "TODO"])])
+    "Here are some things I did!"]
+   [:table
+    [:tr
+     [:td {:style {:width "50%"}}
+      [:p.center "A song!"]
+      (embed-soundcloud "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/507197334&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true")]
+     [:td {:style {:width "50%"}}
+      [:p.center "A musical improv show!"]
+      (embed-youtube "https://www.youtube.com/embed/IEOifkUcShA")]]]
+   [:table
+    [:tr
+     [:td {:style {:width "50%"}}
+      [:p.center "A pointless web app!"]
+      [:a
+       {:href "http://www.paren.party"}
+       [:div
+        {:style {:background-color "#001400"
+                 :height "250px"}}
+        [:img {:src "img/paren-party-preview.png"
+               :width "100%"}]]]]
+     [:td {:style {:width "50%"}}
+      [:p.center "An open-source library!"]
+      [:a
+       {:href "https://github.com/Engelberg/instaparse"}
+       [:div
+        {:style {:background-color "#f6f8fa"
+                 :height "250px"}}
+        [:img {:src "img/instaparse.png"
+               :width "100%"}]]]]]
+    [:tr
+     [:td {:style {:width "50%"}}
+      [:p.center "A parody!"]
+      (embed-youtube "https://www.youtube.com/embed/c6htQSmTV4A")]
+     [:td {:style {:width "50%"}}
+      [:p.center "A tech talk!"]
+      (embed-youtube "https://www.youtube.com/embed/jlPaby7suOc")]]]])
 
 
 (defn page
@@ -93,10 +133,9 @@
       :style {:height "100px"}}]]
    [social-media]
    [:hr]
-   [music]
+   [things-i-did]
    [:hr]
-   [software]
-   [:hr]])
+   [:p.center "Thanks for checking out my site and stuff"]])
 
 
 (reagent/render-component
