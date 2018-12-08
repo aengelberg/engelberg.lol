@@ -1,6 +1,7 @@
 (ns alex.core
   (:require
     [alex.icons :as icons]
+    [goog.userAgent :refer [MOBILE]]
     [manifold-cljs.deferred :as d]
     [manifold-cljs.executor :as ex]
     [manifold-cljs.time :as mt]
@@ -81,46 +82,54 @@
             :src src}])
 
 
+(defn flow-table
+  [& stuff]
+  (if MOBILE
+    (into [:div] stuff)
+    (->> stuff
+         (partition 2)
+         (map (fn [[left right]]
+                [:tr
+                 [:td {:style {:width "50%"}} left]
+                 [:td {:style {:width "50%"}} right]]))
+         (into [:table]))))
+
 (defn things-i-did
   []
   [:div
    [:p.center
     "Here are some things I did!"]
-   [:table
-    [:tr
-     [:td {:style {:width "50%"}}
-      [:p.center "A song!"]
-      (embed-soundcloud "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/507197334&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true")]
-     [:td {:style {:width "50%"}}
-      [:p.center "A musical improv show!"]
-      (embed-youtube "https://www.youtube.com/embed/IEOifkUcShA")]]]
-   [:table
-    [:tr
-     [:td {:style {:width "50%"}}
-      [:p.center "A pointless web app!"]
-      [:a
-       {:href "http://www.paren.party"}
-       [:div
-        {:style {:background-color "#001400"
-                 :height "250px"}}
-        [:img {:src "img/paren-party-preview.png"
-               :width "100%"}]]]]
-     [:td {:style {:width "50%"}}
-      [:p.center "An open-source library!"]
-      [:a
-       {:href "https://github.com/Engelberg/instaparse"}
-       [:div
-        {:style {:background-color "#f6f8fa"
-                 :height "250px"}}
-        [:img {:src "img/instaparse.png"
-               :width "100%"}]]]]]
-    [:tr
-     [:td {:style {:width "50%"}}
-      [:p.center "A parody!"]
-      (embed-youtube "https://www.youtube.com/embed/c6htQSmTV4A")]
-     [:td {:style {:width "50%"}}
-      [:p.center "A tech talk!"]
-      (embed-youtube "https://www.youtube.com/embed/jlPaby7suOc")]]]])
+   (flow-table
+    [:div
+     [:p.center "A song!"]
+     (embed-soundcloud "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/507197334&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true")]
+    [:div
+     [:p.center "An improv show!"]
+     (embed-youtube "https://www.youtube.com/embed/clhJgDNFjac")]
+    [:div
+     [:p.center "A pointless web app!"]
+     [:a
+      {:href "http://www.paren.party"}
+      [:div
+       {:style {:background-color "#001400"
+                :height "250px"}}
+       [:img {:src "img/paren-party-preview.png"
+              :width "100%"}]]]]
+    [:div
+     [:p.center "An open-source library!"]
+     [:a
+      {:href "https://github.com/Engelberg/instaparse"}
+      [:div
+       {:style {:background-color "#f6f8fa"
+                :height "250px"}}
+       [:img {:src "img/instaparse.png"
+              :width "100%"}]]]]
+    [:div
+     [:p.center "A tech talk!"]
+     (embed-youtube "https://www.youtube.com/embed/jlPaby7suOc")]
+    [:div
+     [:p.center "An improvised musical score!"]
+     (embed-youtube "https://www.youtube.com/embed/IEOifkUcShA")])])
 
 
 (defn page
